@@ -127,10 +127,6 @@ func rovarspraket (word string) string {
 	return newWord
 }
 
-
-
-
-
 func main () {
 	fmt.Printf("Calling maxOfTwo with values %v and %v returns a value of %v\n",4,3,maxOfTwo(4,3))
 	fmt.Printf("Calling maxOfThree with values %v, %v e %v returns a value of %v\n",4,3,5,maxOfThree(4,3,5))
