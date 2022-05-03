@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"math/rand"
 )
 
 func maxOfTwo (a int, b int) int {
@@ -95,36 +96,66 @@ func istogramma (arrayOfIntegers []int) {
 	}
 }
 
-func frequenzimetro (parole []string) []int {
+func everybodysOwns (arrayOfWords []string) []int {
 	var output []int
-	for _,parola := range parole {
-		output = append(output,len(parola))
+	for _,value := range(arrayOfWords) {
+		output = append(output, len(value))
 	}
 	return output
 }
 
-func associates (word string, listOfWords []string) bool {
-	for _,test := range listOfWords {
-		if word == test {
-			return true
+func frequenzimetro (word string) map[string]int {
+	output := make(map[string]int)
+	for _,value := range(word){
+		
+		_,ok := output[string(value)]
+		if ok {
+			output[string(value)] += 1
 		} else {
-			continue
+			output[string(value)] = 1
+		}
+	}
+	return output
+}
+
+func onlyForAssociates (word string, listOfWords []string) bool {
+	for _,value := range(listOfWords) {
+		if value == word {
+			return true
 		}
 	}
 	return false
 }
 
-func rovarspraket (word string) string {
-	const alfabeth string = "aeiou"
-	var newWord string
-	for _,value := range(word) {
-		if strings.Contains(alfabeth,string(value)) {
-			newWord += string(value)
+func rovarSpraket (word string) string {
+	var output string
+	for _,char := range(word) {
+		if strings.Contains("aeiou",string(char)) {
+			output += string(char)
 		} else {
-			newWord += "o" + string(value) + "o"
+			output += string(char)+"o"+string(char)
 		}
 	}
-	return newWord
+	return output
+}
+
+func timeLord (days, hours, minutes int) int {
+	daysToSeconds := days*24*60*60
+	hoursToSeconds := hours*60*60
+	minutesToSeconds := minutes*60
+	return daysToSeconds+hoursToSeconds+minutesToSeconds
+}
+
+func passWordGenerator (numberOfChars int) string {
+	var output string
+	const alfabeth string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!£$%&/()=?^*"
+	pool := []rune(alfabeth)
+	
+	for i:=0;i<=numberOfChars;i++ {
+		randomIndex := rand.Intn(len(pool))
+		output += string(pool[randomIndex])
+	}
+	return output
 }
 
 func main () {
@@ -139,7 +170,10 @@ func main () {
 	fmt.Printf("Calling personalizedLen on '%v' returns a lenght of %v\n","word",personalizedLen("word"))
 	fmt.Printf("Calling istogramma on %v returns this:\n",[]int{3,4,5,1,2})
 	istogramma([]int{3,4,5,1,2})
-	fmt.Printf("Calling frequenzimetro on %v returns this lenghts: %v\n",[]string{"ciao","Mamma","Nicola"},frequenzimetro([]string{"ciao","Mamma","Nicola"}))
-	fmt.Printf("Calling associates with param %v on %v returns %v\n","mamma",[]string{"mamma","papà"},associates("mamma",[]string{"mamma","papà"}))
-	fmt.Printf("Calling rovarspraket on %v returns %v\n","ma",rovarspraket("ma"))
+	fmt.Printf("Calling everybodysOwn on %v return this: %v\n",[]string{"Ciao","Mamma","Cane"},everybodysOwns([]string{"Ciao","Mamma","Cane"}))
+	fmt.Printf("Calling frequenzimetro on %v returns this: %v\n","mamma",frequenzimetro("mamma"))
+	fmt.Printf("Calling onlyForAssociates on %v and %v returns %v\n","word",[]string{"word","mamma","cane"},onlyForAssociates("word",[]string{"word","mamma","cane"}))
+	fmt.Printf("Calling rovarSpraket on %v returns %v\n","mangiare",rovarSpraket("mangiare"))
+	fmt.Printf("Calling timeLord on %v days,%v hrs,%v minutes returns %v\n",24,60,60,timeLord(24,60,60))
+	fmt.Printf("Calling passWordGen on %v returns this: %v\n",130,passWordGenerator(130))
 }
