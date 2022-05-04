@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"math/rand"
+	"strings"
+	"os"
+	"sysinfo"
 )
 
 func maxOfTwo (a int, b int) int {
@@ -68,8 +70,7 @@ func moltiplicatriceInarrestabile (numeri []int) int {
 
 func reverser (word string) string {
 	var newWord string
-	for i,_ := range word {
-		newWord += string(word[len(word)-i-1])
+	for i := range word {		newWord += string(word[len(word)-i-1])
 	}
 	return newWord
 }
@@ -158,6 +159,57 @@ func passWordGenerator (numberOfChars int) string {
 	return output
 }
 
+func macGenerator () string {
+	const alfa string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+	var generatedMac string
+	for i:=0;i<=11;i++ {
+		pool := []rune(alfa)
+		randomIndex := rand.Intn(len(pool))
+		generatedMac += string(pool[randomIndex])
+		if i%2 == 1 {
+			generatedMac += ":"
+		}
+	}
+	return generatedMac
+}
+
+func rimario (word string, possibleRymes []string) string {
+	for _,psb := range possibleRymes {
+		if word[3:] == psb[3:] {
+			return psb
+		}
+	}
+	return "None"
+}
+
+func rot13 (word string) string {
+	var cipher string
+	const alfabeth string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	for _,letter := range(word) {
+		fetchIndex := strings.Index(alfabeth,string(letter))
+		cipher += string(alfabeth[fetchIndex+13])
+	}
+	return cipher
+}
+
+func factorial (number int) int {
+	if number == 1 || number == 0 {
+		return 1
+	} else {
+		return number * factorial(number-1)
+	}
+}
+
+func fibonacci (position int) int {
+	if position == 1 || position == 2 {
+		return 1
+	} else {
+		return fibonacci(position-1) + fibonacci(position-2)
+	}
+}
+
+
+
 func main () {
 	fmt.Printf("Calling maxOfTwo with values %v and %v returns a value of %v\n",4,3,maxOfTwo(4,3))
 	fmt.Printf("Calling maxOfThree with values %v, %v e %v returns a value of %v\n",4,3,5,maxOfThree(4,3,5))
@@ -176,4 +228,10 @@ func main () {
 	fmt.Printf("Calling rovarSpraket on %v returns %v\n","mangiare",rovarSpraket("mangiare"))
 	fmt.Printf("Calling timeLord on %v days,%v hrs,%v minutes returns %v\n",24,60,60,timeLord(24,60,60))
 	fmt.Printf("Calling passWordGen on %v returns this: %v\n",130,passWordGenerator(130))
+	fmt.Printf("Calling macGenerator on returns this: %v\n",macGenerator())
+	fmt.Printf("Calling rimario on %v with %v returns %v","pane",[]string{"cane","mamma","presto"},rimario("pane",[]string{"cane","mamma","presto"}))
+	fmt.Printf("Calling cipher on %v return a value of %v\n","TROPPOSTROPPIA", rot13("TROPPOSTROPPIA"))
+	fmt.Printf("Calling factorial on %v returns a vlaue of %v\n",4,factorial(4))
+	fmt.Printf("Calling fibonacci on %v returns a value of %v\n",7,fibonacci(7))
 }
+
