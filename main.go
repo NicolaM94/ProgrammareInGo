@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"strings"
-	"os"
-	"sysinfo"
+	"strings"	 
 )
 
 func maxOfTwo (a int, b int) int {
@@ -208,6 +206,24 @@ func fibonacci (position int) int {
 	}
 }
 
+func collatz (number int) []int {
+
+  var collector []int
+  var temp int
+
+  temp = number
+  for temp > 4 {
+    
+    if temp %2 == 0 {
+      temp = temp/2
+    } else {
+      temp = temp*3+1
+    }
+    collector = append(collector,temp)
+  }
+  return collector
+}
+
 
 
 func main () {
@@ -233,5 +249,6 @@ func main () {
 	fmt.Printf("Calling cipher on %v return a value of %v\n","TROPPOSTROPPIA", rot13("TROPPOSTROPPIA"))
 	fmt.Printf("Calling factorial on %v returns a vlaue of %v\n",4,factorial(4))
 	fmt.Printf("Calling fibonacci on %v returns a value of %v\n",7,fibonacci(7))
+  fmt.Printf("Calling collatz on %v return: %v",13,collatz(13))
 }
 
